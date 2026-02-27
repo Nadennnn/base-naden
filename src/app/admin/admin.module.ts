@@ -12,6 +12,7 @@ import {
   ArrowLeft,
   ArrowLeftRight,
   ArrowUp01,
+  ArrowUpRight,
   BarChart2,
   Boxes,
   Building2,
@@ -30,6 +31,7 @@ import {
   Computer,
   ContactRound,
   Crosshair,
+  Delete,
   Droplet,
   Droplets,
   Edit3,
@@ -48,6 +50,7 @@ import {
   Info,
   Layers,
   Layers2,
+  LayoutDashboard,
   List,
   Loader2,
   Lock,
@@ -92,6 +95,7 @@ import {
   Target,
   TestTubeDiagonal,
   Trash2,
+  TrendingDown,
   TrendingUp,
   Truck,
   User,
@@ -99,23 +103,51 @@ import {
   UserCog,
   UserRound,
   UsersRound,
+  Wallet,
   Weight,
   X,
 } from 'lucide-angular';
 import { AdminComponent } from './admin.component';
 import { AdminRoutes } from './admin.routing';
+import { BottomNavComponent } from './components/bottom-nav/bottom-nav.component';
+import { BottomSheetComponent } from './components/bottom-sheet/bottom-sheet.component';
+import { FabButtonComponent } from './components/fab-button/fab-button.component';
 import { LucideIconsComponent } from './components/lucide-icons.component';
+import { SummaryCardComponent } from './components/summary-card/summary-card.component';
+import { TransactionItemComponent } from './components/transaction-item/transaction-item.component';
+import { AlokasiComponent } from './pages/alokasi/alokasi.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MonitoringComponent } from './pages/monitoring/monitoring.component';
+import { PendapatanComponent } from './pages/pendapatan/pendapatan.component';
+import { PengeluaranComponent } from './pages/pengeluaran/pengeluaran.component';
+import { RupiahPipe } from './pipes/rupiah.pipe';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [DatePipe],
-  declarations: [AdminComponent, LucideIconsComponent],
+  declarations: [
+    AdminComponent,
+    LucideIconsComponent,
+    BottomNavComponent,
+    SummaryCardComponent,
+    DashboardComponent,
+    TransactionItemComponent,
+    PengeluaranComponent,
+    FabButtonComponent,
+    BottomSheetComponent,
+    PendapatanComponent,
+    MonitoringComponent,
+    AlokasiComponent,
+    LoginComponent,
+  ],
   imports: [
     RouterModule.forChild(AdminRoutes),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
+    RupiahPipe,
 
     LucideAngularModule.pick({
       AArrowUp,
@@ -214,6 +246,12 @@ import { LucideIconsComponent } from './components/lucide-icons.component';
       Building2,
       BarChart2,
       Boxes,
+      LayoutDashboard,
+      TrendingDown,
+
+      ArrowUpRight,
+      Wallet,
+      Delete,
     }),
   ],
 })

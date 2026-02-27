@@ -1,0 +1,227 @@
+<div class="space-y-4">
+  <!-- Header -->
+  <div
+    class="p-4 border bg-gradient-to-br from-indigo-500/20 to-indigo-900/10 rounded-2xl border-indigo-500/20"
+  >
+    <p class="mb-1 text-xs text-gray-400">Dana Investasi Bulan Ini</p>
+    <h2 class="text-2xl font-bold text-white">{{ danaInvestasi | rupiah }}</h2>
+    <p class="mt-1 text-xs text-indigo-400">Dari sisa pendapatan setelah kebutuhan</p>
+  </div>
+
+  <!-- Setting Alokasi -->
+  <div class="p-4 bg-gray-900 border border-gray-800 rounded-2xl">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-semibold">Pengaturan Alokasi</h3>
+      <button
+        (click)="toggleEdit()"
+        class="text-xs text-indigo-400 transition-colors hover:text-indigo-300"
+      >
+        {{ isEditing ? 'Simpan' : 'Edit %' }}
+      </button>
+    </div>
+
+    <div class="space-y-4">
+      <!-- Saham -->
+      <div>
+        <div class="flex justify-between mb-1">
+          <div class="flex items-center gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+            <span class="text-sm text-gray-300">📈 Pasar Saham</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input
+              *ngIf="isEditing"
+              type="number"
+              [(ngModel)]="persen.saham"
+              class="px-2 py-1 text-xs text-right text-white bg-gray-800 border border-gray-700 rounded-lg w-14 focus:outline-none focus:border-indigo-500"
+              min="0"
+              max="100"
+            />
+            <span *ngIf="!isEditing" class="text-xs text-gray-400">{{ persen.saham }}%</span>
+            <span class="text-sm font-semibold text-green-400">{{ nominalSaham | rupiah }}</span>
+          </div>
+        </div>
+        <div class="w-full h-2 bg-gray-800 rounded-full">
+          <div
+            class="h-2 transition-all duration-500 bg-green-500 rounded-full"
+            [style.width.%]="persen.saham"
+          ></div>
+        </div>
+      </div>
+
+      <!-- KROM -->
+      <div>
+        <div class="flex justify-between mb-1">
+          <div class="flex items-center gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+            <span class="text-sm text-gray-300">🛡️ KROM Dana Darurat</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input
+              *ngIf="isEditing"
+              type="number"
+              [(ngModel)]="persen.krom"
+              class="px-2 py-1 text-xs text-right text-white bg-gray-800 border border-gray-700 rounded-lg w-14 focus:outline-none focus:border-indigo-500"
+              min="0"
+              max="100"
+            />
+            <span *ngIf="!isEditing" class="text-xs text-gray-400">{{ persen.krom }}%</span>
+            <span class="text-sm font-semibold text-yellow-400">{{ nominalKrom | rupiah }}</span>
+          </div>
+        </div>
+        <div class="w-full h-2 bg-gray-800 rounded-full">
+          <div
+            class="h-2 transition-all duration-500 bg-yellow-500 rounded-full"
+            [style.width.%]="persen.krom"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Kripto -->
+      <div>
+        <div class="flex justify-between mb-1">
+          <div class="flex items-center gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-indigo-400"></div>
+            <span class="text-sm text-gray-300">₿ Kripto</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input
+              *ngIf="isEditing"
+              type="number"
+              [(ngModel)]="persen.kripto"
+              class="px-2 py-1 text-xs text-right text-white bg-gray-800 border border-gray-700 rounded-lg w-14 focus:outline-none focus:border-indigo-500"
+              min="0"
+              max="100"
+            />
+            <span *ngIf="!isEditing" class="text-xs text-gray-400">{{ persen.kripto }}%</span>
+            <span class="text-sm font-semibold text-indigo-400">{{ nominalKripto | rupiah }}</span>
+          </div>
+        </div>
+        <div class="w-full h-2 bg-gray-800 rounded-full">
+          <div
+            class="h-2 transition-all duration-500 bg-indigo-500 rounded-full"
+            [style.width.%]="persen.kripto"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Validasi Total % -->
+    <div class="flex items-center justify-between pt-3 mt-4 border-t border-gray-800">
+      <span class="text-xs text-gray-400">Total alokasi</span>
+      <span
+        class="text-sm font-bold"
+        [ngClass]="totalPersen === 100 ? 'text-green-400' : 'text-red-400'"
+      >
+        {{ totalPersen }}%
+        <span *ngIf="totalPersen !== 100" class="text-xs font-normal"> (harus 100%) </span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Realisasi Bulanan -->
+  <div class="p-4 bg-gray-900 border border-gray-800 rounded-2xl">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-semibold">Realisasi Investasi</h3>
+      <button
+        (click)="bukaForm()"
+        class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1.5 rounded-lg transition-colors"
+      >
+        + Catat
+      </button>
+    </div>
+
+    <div class="space-y-2">
+      <ng-container *ngIf="realisasi.length > 0; else emptyRealisasi">
+        <div
+          *ngFor="let item of realisasi"
+          class="flex items-center justify-between py-2 border-b border-gray-800 last:border-0"
+        >
+          <div class="flex items-center gap-3">
+            <div
+              class="flex items-center justify-center w-8 h-8 rounded-xl"
+              [style.background]="item.bgColor"
+            >
+              <span class="text-sm">{{ item.emoji }}</span>
+            </div>
+            <div>
+              <p class="text-sm font-medium">{{ item.jenis }}</p>
+              <p class="text-xs text-gray-400">{{ item.tanggal | date: 'dd MMM yyyy' }}</p>
+            </div>
+          </div>
+          <span class="text-sm font-semibold text-indigo-400">{{ item.nominal | rupiah }}</span>
+        </div>
+      </ng-container>
+
+      <ng-template #emptyRealisasi>
+        <div class="py-6 text-xs text-center text-gray-500">
+          Belum ada realisasi investasi dicatat
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Sheet: Catat Realisasi -->
+<app-bottom-sheet [isOpen]="isFormOpen" title="Catat Realisasi Investasi" (onClose)="tutupForm()">
+  <form [formGroup]="form" (ngSubmit)="simpan()" class="space-y-4">
+    <!-- Jenis Investasi -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Jenis Investasi</label>
+      <select
+        formControlName="jenis"
+        class="w-full px-4 py-3 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-indigo-500"
+      >
+        <option value="" disabled>Pilih jenis</option>
+        <option value="saham">📈 Pasar Saham</option>
+        <option value="krom">🛡️ KROM Dana Darurat</option>
+        <option value="kripto">₿ Kripto</option>
+      </select>
+    </div>
+
+    <!-- Nominal -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Nominal Disetor</label>
+      <div class="relative">
+        <span class="absolute text-sm text-gray-400 -translate-y-1/2 left-3 top-1/2">Rp</span>
+        <input
+          type="number"
+          formControlName="nominal"
+          placeholder="0"
+          class="w-full py-3 pl-10 pr-4 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-indigo-500"
+        />
+      </div>
+    </div>
+
+    <!-- Catatan -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400"
+        >Catatan <span class="text-gray-600">(opsional)</span></label
+      >
+      <input
+        type="text"
+        formControlName="catatan"
+        placeholder="Contoh: Beli BBCA 10 lot..."
+        class="w-full px-4 py-3 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-indigo-500"
+      />
+    </div>
+
+    <!-- Tanggal -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Tanggal</label>
+      <input
+        type="date"
+        formControlName="tanggal"
+        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-indigo-500 [color-scheme:dark]"
+      />
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="w-full py-3 font-semibold text-white transition-colors bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+    >
+      Simpan Realisasi
+    </button>
+  </form>
+</app-bottom-sheet>

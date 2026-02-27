@@ -1,0 +1,30 @@
+<!-- Overlay -->
+<div
+  *ngIf="isOpen"
+  (click)="onClose.emit()"
+  class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+></div>
+
+<!-- Sheet -->
+<div
+  class="fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ease-out bg-gray-900 border-t border-gray-800 rounded-t-3xl"
+  [ngClass]="isOpen ? 'translate-y-0' : 'translate-y-full'"
+>
+  <!-- Handle -->
+  <div class="flex justify-center pt-3 pb-2">
+    <div class="w-10 h-1 bg-gray-700 rounded-full"></div>
+  </div>
+
+  <!-- Header -->
+  <div class="flex items-center justify-between px-4 pb-3 border-b border-gray-800">
+    <h3 class="font-semibold text-white">{{ title }}</h3>
+    <button (click)="onClose.emit()" class="text-gray-400 hover:text-white">
+      <lucide-icon name="x" [size]="20"></lucide-icon>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="px-4 py-4 max-h-[80vh] overflow-y-auto">
+    <ng-content></ng-content>
+  </div>
+</div>

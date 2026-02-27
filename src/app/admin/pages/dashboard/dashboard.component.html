@@ -1,0 +1,88 @@
+<div class="space-y-6">
+  <!-- Greeting -->
+  <div>
+    <h2 class="text-lg font-bold">Ringkasan Bulan Ini</h2>
+    <p class="text-xs text-gray-400">Februari 2026</p>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-2 gap-3">
+    <app-summary-card
+      label="Total Pendapatan"
+      [value]="totalPendapatan"
+      icon="trending-up"
+      iconBg="bg-green-500/20"
+      iconColor="text-green-400"
+    >
+    </app-summary-card>
+
+    <app-summary-card
+      label="Total Pengeluaran"
+      [value]="totalPengeluaran"
+      icon="trending-down"
+      iconBg="bg-red-500/20"
+      iconColor="text-red-400"
+    >
+    </app-summary-card>
+
+    <app-summary-card
+      label="Sisa Bersih"
+      [value]="sisaBersih"
+      icon="wallet"
+      iconBg="bg-blue-500/20"
+      iconColor="text-blue-400"
+    >
+    </app-summary-card>
+
+    <app-summary-card
+      label="Dana Investasi"
+      [value]="danaInvestasi"
+      icon="chart-pie"
+      iconBg="bg-indigo-500/20"
+      iconColor="text-indigo-400"
+    >
+    </app-summary-card>
+  </div>
+
+  <!-- Alokasi Investasi -->
+  <div class="p-4 bg-gray-900 border border-gray-800 rounded-2xl">
+    <h3 class="mb-3 text-sm font-semibold">Alokasi Investasi</h3>
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+          <span class="text-sm text-gray-300">Pasar Saham (50%)</span>
+        </div>
+        <span class="text-sm font-semibold">{{ saham | rupiah }}</span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+          <span class="text-sm text-gray-300">KROM Dana Darurat (30%)</span>
+        </div>
+        <span class="text-sm font-semibold">{{ krom | rupiah }}</span>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-indigo-400 rounded-full"></div>
+          <span class="text-sm text-gray-300">Kripto (20%)</span>
+        </div>
+        <span class="text-sm font-semibold">{{ kripto | rupiah }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transaksi Terakhir -->
+  <div>
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-semibold">Transaksi Terakhir</h3>
+      <a routerLink="/dashboards/pengeluaran" class="text-xs text-indigo-400">Lihat semua</a>
+    </div>
+    <div class="space-y-2">
+      <app-transaction-item *ngFor="let item of recentTransactions" [transaction]="item">
+      </app-transaction-item>
+    </div>
+  </div>
+</div>

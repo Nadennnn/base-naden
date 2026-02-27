@@ -1,0 +1,110 @@
+<div class="space-y-4">
+  <!-- Header + Total -->
+  <div
+    class="p-4 border bg-gradient-to-br from-red-500/20 to-red-900/10 rounded-2xl border-red-500/20"
+  >
+    <p class="mb-1 text-xs text-gray-400">Total Pengeluaran Bulan Ini</p>
+    <h2 class="text-2xl font-bold text-white">{{ totalPengeluaran | rupiah }}</h2>
+    <p class="mt-1 text-xs text-red-400">{{ jumlahTransaksi }} transaksi</p>
+  </div>
+
+  <!-- Filter Kategori -->
+  <div class="flex gap-2 pb-1 overflow-x-auto scrollbar-hide">
+    <button
+      *ngFor="let kat of filterKategori"
+      (click)="setFilter(kat.value)"
+      class="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+      [ngClass]="
+        selectedFilter === kat.value
+          ? 'bg-indigo-600 text-white'
+          : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+      "
+    >
+      {{ kat.label }}
+    </button>
+  </div>
+
+  <!-- List Transaksi -->
+  <div class="space-y-2">
+    <ng-container *ngIf="filteredTransaksi.length > 0; else emptyState">
+      <app-transaction-item
+        *ngFor="let item of filteredTransaksi"
+        [transaction]="item"
+        (onDelete)="hapusTransaksi(item.id)"
+      >
+      </app-transaction-item>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="flex flex-col items-center justify-center py-12 text-center">
+        <lucide-icon name="inbox" [size]="40" class="mb-3 text-gray-600"></lucide-icon>
+        <p class="text-sm text-gray-500">Belum ada pengeluaran</p>
+        <p class="mt-1 text-xs text-gray-600">Tap tombol + untuk menambahkan</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!-- FAB Button -->
+<app-fab-button (onClick)="bukaForm()"></app-fab-button>
+
+<!-- Bottom Sheet Form -->
+<app-bottom-sheet [isOpen]="isFormOpen" title="Tambah Pengeluaran" (onClose)="tutupForm()">
+  <form [formGroup]="form" (ngSubmit)="simpan()" class="space-y-4">
+    <!-- Nominal -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Nominal</label>
+      <div class="relative">
+        <span class="absolute text-sm text-gray-400 -translate-y-1/2 left-3 top-1/2">Rp</span>
+        <input
+          type="number"
+          formControlName="nominal"
+          placeholder="0"
+          class="w-full py-3 pl-10 pr-4 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-indigo-500"
+        />
+      </div>
+    </div>
+
+    <!-- Kategori -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Kategori</label>
+      <select
+        formControlName="kategori_id"
+        class="w-full px-4 py-3 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-indigo-500"
+      >
+        <option value="" disabled>Pilih kategori</option>
+        <option *ngFor="let kat of kategoriList" [value]="kat.value">{{ kat.label }}</option>
+      </select>
+    </div>
+
+    <!-- Keterangan -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Keterangan</label>
+      <input
+        type="text"
+        formControlName="keterangan"
+        placeholder="Contoh: Makan siang, Bensin..."
+        class="w-full px-4 py-3 text-sm text-white bg-gray-800 border border-gray-700 rounded-xl focus:outline-none focus:border-indigo-500"
+      />
+    </div>
+
+    <!-- Tanggal -->
+    <div>
+      <label class="block mb-1 text-xs text-gray-400">Tanggal</label>
+      <input
+        type="date"
+        formControlName="tanggal"
+        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-indigo-500 [color-scheme:dark]"
+      />
+    </div>
+
+    <!-- Submit -->
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="w-full py-3 font-semibold text-white transition-colors bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl"
+    >
+      Simpan Pengeluaran
+    </button>
+  </form>
+</app-bottom-sheet>

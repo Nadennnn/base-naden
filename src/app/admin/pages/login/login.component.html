@@ -1,0 +1,58 @@
+<div class="flex flex-col items-center justify-center min-h-screen px-6 bg-gray-950">
+  <div class="mb-8 text-center">
+    <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-indigo-600 rounded-2xl">
+      <!-- <lucide-icon name="" [size]="32" class="text-white"></lucide-icon> -->
+      wallet
+    </div>
+    <h1 class="text-2xl font-bold text-white">Finance Tracker</h1>
+    <p class="mt-1 text-sm text-gray-400">Masukkan PIN untuk melanjutkan</p>
+  </div>
+
+  <!-- PIN Display -->
+  <div class="flex gap-3 mb-8">
+    <div
+      *ngFor="let i of [0, 1, 2, 3]"
+      class="w-4 h-4 transition-colors rounded-full"
+      [ngClass]="pin.length > i ? 'bg-indigo-500' : 'bg-gray-700'"
+    ></div>
+  </div>
+
+  <!-- Error -->
+  <p *ngIf="errorMsg" class="mb-4 text-sm text-red-400">{{ errorMsg }}</p>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="mb-4 text-sm text-gray-400">Memverifikasi...</div>
+
+  <!-- PIN Pad -->
+  <div class="grid w-full max-w-xs grid-cols-3 gap-4">
+    <button
+      *ngFor="let num of [1, 2, 3, 4, 5, 6, 7, 8, 9]"
+      (click)="inputPin(num.toString())"
+      [disabled]="isLoading"
+      class="h-16 text-xl font-semibold text-white transition-all bg-gray-800 hover:bg-gray-700 active:bg-indigo-600 active:scale-95 disabled:opacity-50 rounded-2xl"
+    >
+      {{ num }}
+    </button>
+
+    <!-- Kosong -->
+    <div></div>
+
+    <!-- 0 -->
+    <button
+      (click)="inputPin('0')"
+      [disabled]="isLoading"
+      class="h-16 text-xl font-semibold text-white transition-all bg-gray-800 hover:bg-gray-700 active:bg-indigo-600 active:scale-95 disabled:opacity-50 rounded-2xl"
+    >
+      0
+    </button>
+
+    <!-- Hapus -->
+    <button
+      (click)="hapusPin()"
+      [disabled]="isLoading"
+      class="flex items-center justify-center h-16 transition-all bg-gray-800 hover:bg-gray-700 active:scale-95 disabled:opacity-50 rounded-2xl"
+    >
+      delete
+    </button>
+  </div>
+</div>

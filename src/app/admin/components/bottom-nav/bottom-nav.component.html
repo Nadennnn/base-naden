@@ -1,0 +1,48 @@
+<nav class="fixed bottom-0 left-0 right-0 z-20 bg-gray-900 border-t border-gray-800">
+  <div class="flex items-center justify-around py-2">
+    <a
+      routerLink="/dashboards/dashboard"
+      routerLinkActive="text-indigo-400"
+      class="flex flex-col items-center gap-1 px-4 py-1 text-gray-500 transition-colors hover:text-indigo-400"
+    >
+      <lucide-icon name="layout-dashboard" [size]="20"></lucide-icon>
+      <span class="text-[10px]">Dashboard</span>
+    </a>
+
+    <a
+      routerLink="/dashboards/pendapatan"
+      routerLinkActive="text-indigo-400"
+      class="flex flex-col items-center gap-1 px-4 py-1 text-gray-500 transition-colors hover:text-indigo-400"
+    >
+      <lucide-icon name="trending-up" [size]="20"></lucide-icon>
+      <span class="text-[10px]">Pendapatan</span>
+    </a>
+
+    <a
+      routerLink="/dashboards/pengeluaran"
+      routerLinkActive="text-indigo-400"
+      class="flex flex-col items-center gap-1 px-4 py-1 text-gray-500 transition-colors hover:text-indigo-400"
+    >
+      <lucide-icon name="trending-down" [size]="20"></lucide-icon>
+      <span class="text-[10px]">Pengeluaran</span>
+    </a>
+
+    <a
+      routerLink="/dashboards/monitoring"
+      routerLinkActive="text-indigo-400"
+      class="flex flex-col items-center gap-1 px-4 py-1 text-gray-500 transition-colors hover:text-indigo-400"
+    >
+      <lucide-icon name="bar-chart-2" [size]="20"></lucide-icon>
+      <span class="text-[10px]">Monitoring</span>
+    </a>
+
+    <a
+      routerLink="/dashboards/alokasi"
+      routerLinkActive="text-indigo-400"
+      class="flex flex-col items-center gap-1 px-4 py-1 text-gray-500 transition-colors hover:text-indigo-400"
+    >
+      <lucide-icon name="chart-pie" [size]="20"></lucide-icon>
+      <span class="text-[10px]">Alokasi</span>
+    </a>
+  </div>
+</nav>
